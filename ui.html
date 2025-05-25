@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Inter, sans-serif;
+      padding: 20px;
+    }
+    button {
+      background-color: #18A0FB;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 8px 0;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #0D8DE3;
+    }
+    .status {
+      margin-top: 16px;
+      padding: 8px;
+      border-radius: 4px;
+      background-color: #F5F5F5;
+    }
+  </style>
+</head>
+<body>
+  <h2>Cursor MCP Connector</h2>
+  <button id="scan">Scan Current Page</button>
+  <div class="status" id="status">Ready to connect</div>
+
+  <script>
+    document.getElementById('scan').onclick = () => {
+      parent.postMessage({ pluginMessage: { type: 'scan-document' } }, '*');
+      document.getElementById('status').textContent = 'Scanning...';
+    };
+
+    // Listen for messages from the plugin code
+    window.onmessage = (event) => {
+      const message = event.data.pluginMessage;
+      if (message) {
+        if (message.status === 'success') {
+          document.getElementById('status').textContent = 'Data sent to MCP server!';
+        } else if (message.status === 'error') {
+          document.getElementById('status').textContent = 'Error: ' + message.message;
+        } else {
+          document.getElementById('status').textContent = 'Data sent to MCP server';
+        }
+      }
+    };
+  </script>
+</body>
+</html> 
