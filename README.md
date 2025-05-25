@@ -9,6 +9,14 @@ This Figma plugin connects to the Cursor MCP server to automatically detect and 
 - Manual scanning of the current page
 - Seamless integration with Cursor MCP server
 
+## Public MCP Server
+
+You can use the public MCP server at:
+
+https://mcp-server-g9fg.onrender.com
+
+Set this as your MCP server URL in the Figma plugin or Cursor settings.
+
 ## Setup
 
 1. Install the plugin in Figma:
@@ -17,8 +25,8 @@ This Figma plugin connects to the Cursor MCP server to automatically detect and 
    - Select the `manifest.json` file from this project
 
 2. Configure the MCP server:
-   - Update the `MCP_SERVER_URL` in `code.js` to point to your MCP server
-   - Make sure your MCP server is running and accessible
+   - The plugin is pre-configured to use the public Render MCP server.
+   - If you want to use your own server, update the `MCP_SERVER_URL` in `code.js`.
 
 3. Run the plugin:
    - In Figma, right-click and select Plugins > Development > Cursor MCP Connector
@@ -52,13 +60,13 @@ To modify the plugin:
 ## Requirements
 
 - Figma desktop app or Figma web
-- Running MCP server instance
+- Running MCP server instance (or use the public one above)
 - Network access to the MCP server
 
 ## Troubleshooting
 
 If the plugin isn't connecting:
-1. Verify the MCP server is running
+1. Verify the MCP server is running (if self-hosted)
 2. Check the MCP server URL in `code.js`
 3. Ensure network access is allowed
 4. Check the browser console for error messages 

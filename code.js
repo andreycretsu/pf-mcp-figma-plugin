@@ -1,5 +1,5 @@
 // MCP Server connection configuration
-const MCP_SERVER_URL = 'http://localhost:3000'; // Update this with your MCP server URL
+const MCP_SERVER_URL = 'https://mcp-server-g9fg.onrender.com'; // Public Render URL
 
 // Function to send component data to MCP server
 async function sendToMCP(data) {
