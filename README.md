@@ -15,8 +15,6 @@ You can use the public MCP server at:
 
 https://mcp-server-g9fg.onrender.com
 
-Set this as your MCP server URL in the Figma plugin or Cursor settings.
-
 ## Setup
 
 1. Install the plugin in Figma:
@@ -25,8 +23,8 @@ Set this as your MCP server URL in the Figma plugin or Cursor settings.
    - Select the `manifest.json` file from this project
 
 2. Configure the MCP server:
-   - The plugin is pre-configured to use the public Render MCP server.
-   - If you want to use your own server, update the `MCP_SERVER_URL` in `code.js`.
+   - The plugin UI now lets you set the MCP server URL directly. Enter your server URL in the input field and click "Set Server URL".
+   - By default, it uses the public Render MCP server.
 
 3. Run the plugin:
    - In Figma, right-click and select Plugins > Development > Cursor MCP Connector
@@ -34,15 +32,21 @@ Set this as your MCP server URL in the Figma plugin or Cursor settings.
 
 ## Usage
 
-1. The plugin automatically detects:
-   - Selected components
-   - New components
-   - Modified components
-   - Component hierarchy
+- Click **Scan Current Page** to send all components/frames on the current page to the MCP server.
+- You can change the MCP server URL at any time using the input field and button in the plugin UI.
 
-2. Manual scanning:
-   - Click the "Scan Current Page" button to scan all components on the current page
-   - The status will update to show the scanning progress
+## Troubleshooting
+
+- If you see an error like `Could not reach MCP server...`, check:
+  - The MCP server URL is correct and accessible from your network.
+  - The MCP server allows CORS requests from Figma (the provided server does).
+  - The server is running and not overloaded.
+
+## Deploying Your Own MCP Server
+
+- You can deploy your own MCP server using the included `mcp-server.js` and `package.json` files.
+- Render.com is recommended for easy Node.js hosting.
+- Make sure to update the MCP server URL in the plugin UI to point to your deployed server.
 
 ## Development
 

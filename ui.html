@@ -29,15 +29,20 @@
 </head>
 <body>
   <h2>Cursor MCP Connector</h2>
+  <label for="server-url">MCP Server URL:</label>
+  <input id="server-url" type="text" value="https://mcp-server-g9fg.onrender.com" style="width:100%;margin-bottom:8px;" />
+  <button id="set-server-url">Set Server URL</button>
   <button id="scan">Scan Current Page</button>
   <div class="status" id="status">Ready to connect</div>
 
   <script>
+    document.getElementById('set-server-url').onclick = () => {
+      const url = document.getElementById('server-url').value;
+      parent.postMessage({ pluginMessage: { type: 'set-server-url', url } }, '*');
+    };
     document.getElementById('scan').onclick = () => {
       parent.postMessage({ pluginMessage: { type: 'scan-document' } }, '*');
-      document.getElementById('status').textContent = 'Scanning...';
     };
-
     // Listen for messages from the plugin code
     window.onmessage = (event) => {
       const message = event.data.pluginMessage;
@@ -46,6 +51,8 @@
           document.getElementById('status').textContent = 'Data sent to MCP server!';
         } else if (message.status === 'error') {
           document.getElementById('status').textContent = 'Error: ' + message.message;
+        } else if (message.status === 'server-url-set') {
+          document.getElementById('status').textContent = 'Server URL set to: ' + message.url;
         } else {
           document.getElementById('status').textContent = 'Data sent to MCP server';
         }

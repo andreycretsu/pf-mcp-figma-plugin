@@ -1,5 +1,5 @@
 // MCP Server connection configuration
-const MCP_SERVER_URL = 'https://mcp-server-g9fg.onrender.com'; // Public Render URL
+let MCP_SERVER_URL = 'https://mcp-server-g9fg.onrender.com'; // Default, can be changed from UI
 
 // Function to send component data to MCP server
 async function sendToMCP(data) {
@@ -18,8 +18,11 @@ async function sendToMCP(data) {
     figma.ui.postMessage({ status: 'success' });
     return await response.json();
   } catch (error) {
-    console.error('Error sending data to MCP server:', error);
-    figma.ui.postMessage({ status: 'error', message: error.message });
+    let message = error.message;
+    if (message.includes('Failed to fetch')) {
+      message = `Could not reach MCP server at ${MCP_SERVER_URL}. Check your network or CORS settings.`;
+    }
+    figma.ui.postMessage({ status: 'error', message });
   }
 }
 
@@ -71,14 +74,12 @@ figma.on('documentchange', (event) => {
 });
 
 // Handle messages from the UI
-figma.ui.onmessage = msg => {
+figma.ui.onmessage = async (msg) => {
   if (msg.type === 'scan-document') {
-    const allNodes = figma.currentPage.findAll();
-    const components = allNodes.map(node => extractComponentInfo(node));
-    
-    sendToMCP({
-      type: 'full_scan',
-      components: components
-    });
+    const components = scanCurrentPage();
+    await sendToMCP({ type: 'scan', components });
+  } else if (msg.type === 'set-server-url') {
+    MCP_SERVER_URL = msg.url;
+    figma.ui.postMessage({ status: 'server-url-set', url: MCP_SERVER_URL });
   }
 }; 
